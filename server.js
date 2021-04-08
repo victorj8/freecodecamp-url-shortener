@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
 var mongoose = require('mongoose');
+const { exception } = require('console');
 
 const { Schema } = mongoose;
 
@@ -62,6 +63,9 @@ app.get('/api/shorturl/:url', function(req, res) {
 
 app.post('/api/shorturl/new',function(req, res, next) {
     try{
+      var n = req.body.url.startsWith("http://") || req.body.url.startsWith("https://");
+      if(n === false) throw 'invalid url';
+
       let urlvar = new URL(req.body.url);
 
       next();      
