@@ -61,15 +61,21 @@ app.get('/api/shorturl/:url', function(req, res) {
 });
 
 app.post('/api/shorturl/new',function(req, res, next) {
-  let urlvar = new URL(req.body.url);
+    try{
+      let urlvar = new URL(req.body.url);
 
-  dns.lookup(urlvar.hostname, (err, address, family)=>{
-    if (err) {
+      console.log(urlvar.hostname);
+
+      dns.lookup(urlvar.hostname, (err, address, family)=>{
+        if (err) {
+          res.json({"error": 'invalid url'});
+        } else {
+          next();
+        }
+      });
+    } catch(err){
       res.json({"error": 'invalid url'});
-    } else {
-      next();
     }
-  });
   }, function(req, res) {
     createAndSaveUrl(req.body.url, (err, data) => {
       res.send({original_url : data.original_url, short_url : data.short_url});
