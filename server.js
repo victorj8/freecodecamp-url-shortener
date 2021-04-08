@@ -68,13 +68,13 @@ app.post('/api/shorturl/new',function(req, res, next) {
 
       dns.lookup(urlvar.hostname, (err, address, family)=>{
         if (err) {
-          res.json({"error": 'invalid url'});
+          res.json({error: 'Invalid URL'});
         } else {
           next();
         }
       });
     } catch(err){
-      res.json({"error": 'invalid url'});
+      res.json({error: 'Invalid URL'});
     }
   }, function(req, res) {
     createAndSaveUrl(req.body.url, (err, data) => {
