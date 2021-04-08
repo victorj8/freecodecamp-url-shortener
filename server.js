@@ -64,15 +64,7 @@ app.post('/api/shorturl/new',function(req, res, next) {
     try{
       let urlvar = new URL(req.body.url);
 
-      console.log(urlvar.hostname);
-
-      dns.lookup(urlvar.hostname, (err, address, family)=>{
-        if (err) {
-          res.json({error: 'Invalid URL'});
-        } else {
-          next();
-        }
-      });
+      next();      
     } catch(err){
       res.json({error: 'Invalid URL'});
     }
